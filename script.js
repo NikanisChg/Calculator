@@ -4,8 +4,6 @@ function appendToDisplay(value) {
 
 function calculate() {
     let expression = document.getElementById('display').value;
-    // Replace 'x' with '*' for multiplication (to handle percentages)
-    expression = expression.replace(/x/g, '*');
     let result = eval(expression);
     document.getElementById('display').value = result;
 }

@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+:root {
+    --dark-brown: #210e02;
+    --brown: #4c280f;
+    --green: #0b6126;
+    --light-background: #f8e7bc;
+  }
+
+  
+body {
+    font-family: "Sriracha", cursive;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    background-image: url("wood-texture-background.jpg"); /* Dark brown background */
+    color: var(--light-background);
+}
+
+.calculator {
+    display: inline-block;
+    border: 10px solid var(--dark-brown);
+    padding: 40px;
+    margin-top: 10px;
+    background-color: var(--brown); /* Dark brown background */
+    border-radius: 10px;
+    width: 300px; /* Larger width */
+}
+
+.calculator input[type="button"] {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: var(--green); /* Green background */
+    border-radius: 50%; /* Round shape */
+    color: var(--dark-brown);
+    border: 2px solid var(--dark-brown);
+    outline: none;
+    font-family: "Sriracha", cursive;
+    font-weight: 400;
+    font-style: normal;
+    
+}
+.calculator input[value="="] {
+
+    border: 5px dotted var(--light-background);
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+}
+
+.calculator input[type="button"]:active {
+    background-color: #5fe884; /* Change color on button click */
+}
+
+#display {
+    margin-bottom: 20px; /* More space below the display input */
+    border: 5px solid var(--dark-brown);
+    font-size: 15px; /* Bigger font size */
+    padding: 10px; /* Increase padding for better appearance */
+    background-color: #f8e7bc;
+    font-family: "Sriracha", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--dark-brown);
+}
+
+#frog-emoji {
+    font-size: 36px; /* Bigger font size for the frog emoji */
+   
+}
+

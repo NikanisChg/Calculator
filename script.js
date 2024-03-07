@@ -4,30 +4,72 @@ function appendToDisplay(value) {
 
 function calculate() {
     let expression = document.getElementById('display').value;
-    let result = eval(expression);
+    let result = evaluateExpression(expression);
     document.getElementById('display').value = result;
+}
+
+function evaluateExpression(expression) {
+    let tokens = expression.split(/([\+\-\*\/])/);
+    let numbers = [];
+    let operators = [];
+
+    // Separate numbers and operators
+    tokens.forEach(token => {
+        if (!isNaN(parseFloat(token))) {
+            numbers.push(parseFloat(token));
+        } else {
+            operators.push(token);
+        }
+    });
+
+    // Perform calculations
+    while (operators.length > 0) {
+        let operator = operators.shift();
+        let number2 = numbers.shift();
+        let number1 = numbers.shift();
+
+        switch (operator) {
+            case '+':
+                numbers.unshift(number1 + number2);
+                break;
+            case '-':
+                numbers.unshift(number1 - number2);
+                break;
+            case '*':
+                numbers.unshift(number1 * number2);
+                break;
+            case '/':
+                if (number2 !== 0) {
+                    numbers.unshift(number1 / number2);
+                } else {
+                    alert("Congrats on annihilating the Universe by dividing by zero");
+                    return NaN;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    return numbers[0];
 }
 
 function calculatePercentage() {
     let expression = document.getElementById('display').value;
-    // Parse the expression to handle percentage calculation
     let parts = expression.split(/[\+\-\*\/]/);
     let lastPart = parts[parts.length - 1];
     let percentage = parseFloat(lastPart) / 100;
-    let result = eval(expression.replace(lastPart, percentage));
+    let result = evaluateExpression(expression.replace(lastPart, percentage));
     document.getElementById('display').value = result;
 }
 
 function toggleSign() {
     let display = document.getElementById('display');
     let currentValue = display.value;
-    
-    // Check if the current value is already negative
+
     if (currentValue.startsWith('-')) {
-        // Remove the negative sign
         display.value = currentValue.slice(1);
     } else {
-        // Add a negative sign
         display.value = '-' + currentValue;
     }
 }
@@ -37,15 +79,10 @@ function clearDisplay() {
 }
 
 function validateInput(input) {
-    // Regular expression to allow numeric values (including decimals) and operators (+, -, *, /)
     const pattern = /^[0-9.+\-*/]+$/;
 
-    // Check if the input matches the pattern
     if (!pattern.test(input.value)) {
-        // If input does not match, show alert
-        alert("Nah-nah-nah. Please enter numeric values or operators (+, -, *, /) only.");
-        // Remove non-numeric characters and invalid operators from the input
+        alert(" Nah-ah-ah. Numeric values or operators (+, -, *, /) only please =)");
         input.value = input.value.replace(/[^0-9.+\-*/]/g, '');
     }
 }
-

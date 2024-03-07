@@ -1,3 +1,5 @@
+//new version done without eval
+
 function appendToDisplay(value) {
     document.getElementById('display').value += value;
 }
@@ -22,7 +24,7 @@ function evaluateExpression(expression) {
         }
     });
 
-    // Perform calculations
+    // calculations themselves
     while (operators.length > 0) {
         let operator = operators.shift();
         let number2 = numbers.shift();

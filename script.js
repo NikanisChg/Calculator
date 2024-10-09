@@ -1,90 +1,60 @@
-//new version done without eval
-
-function appendToDisplay(value) {
+// Add value to display
+function appendToDisplay( value ){
     document.getElementById('display').value += value;
-}
-
-function calculate() {
-    let expression = document.getElementById('display').value;
-    let result = evaluateExpression(expression);
-    document.getElementById('display').value = result;
-}
-
-function evaluateExpression(expression) {
-    let tokens = expression.split(/([\+\-\*\/])/);
-    let numbers = [];
-    let operators = [];
-
-    // Separate numbers and operators
-    tokens.forEach(token => {
-        if (!isNaN(parseFloat(token))) {
-            numbers.push(parseFloat(token));
-        } else {
-            operators.push(token);
-        }
+    }
+    
+    function calculate() {
+    var expression = document.getElementById('display').value;
+    if (expression == '') {
+    return;
+    }
+    
+    // Evaluate expression with percentage 
+    expression = expression.replace(/(\d+\.?\d*)%/g, function(match, number) {
+        return '('+number+'/100)';
     });
-
-    // calculations themselves
-    while (operators.length > 0) {
-        let operator = operators.shift();
-        let number2 = numbers.shift();
-        let number1 = numbers.shift();
-
-        switch (operator) {
-            case '+':
-                numbers.unshift(number1 + number2);
-                break;
-            case '-':
-                numbers.unshift(number1 - number2);
-                break;
-            case '*':
-                numbers.unshift(number1 * number2);
-                break;
-            case '/':
-                if (number2 !== 0) {
-                    numbers.unshift(number1 / number2);
-                } else {
-                    alert("Congrats on annihilating the Universe by dividing by zero");
-                    return NaN;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    return numbers[0];
-}
-
-function calculatePercentage() {
-    let expression = document.getElementById('display').value;
-    let parts = expression.split(/[\+\-\*\/]/);
-    let lastPart = parts[parts.length - 1];
-    let percentage = parseFloat(lastPart) / 100;
-    let result = evaluateExpression(expression.replace(lastPart, percentage));
+    
+    try {
+    // using Function constructor to evaluate the expression
+    var result = new Function('return ' + expression)();
     document.getElementById('display').value = result;
-}
-
-function toggleSign() {
-    let display = document.getElementById('display');
-    let currentValue = display.value;
-
-    if (currentValue.startsWith('-')) {
-        display.value = currentValue.slice(1);
-    } else {
-        display.value = '-' + currentValue;
-    }
-}
-
-function clearDisplay() {
+    } catch (err) {
+    alert("Oops, something went wrong, check what you're inputting!");
     document.getElementById('display').value = '';
-}
-
-function validateInput(input) {
-    const pattern = /^[0-9.+\-*/]+$/;
-
-    if (!pattern.test(input.value)) {
-        alert(" Nah-ah-ah. Numeric values or operators (+, -, *, /) only please =)");
-        input.value = input.value.replace(/[^0-9.+\-*/]/g, '');
     }
-}
+    }
+    
+    // Just add % symbol to the display, doesn't calculate right away
+    function calculatePercentage() {
+    let display = document.getElementById('display');
+    let expression = display.value;
+    if (expression !== ''){
+    display.value += '%';
+    }
+    }
+    
+    // Toggle between positive and negative
+    function toggleSign() {
+    var display = document.getElementById('display');
+    var currentValue = display.value;
+    if (currentValue.charAt(0) === '-') {
+    display.value = currentValue.substring(1);
+    } else {
+    display.value = '-' + currentValue;
+    }
+    }
+    
+    // clear everything
+    function clearDisplay() {
+    document.getElementById('display').value = '';
+    }
+    
+    // Validate that only numbers and some operators are entered
+    function validateInput(input){
+    var pattern = /^[0-9.+\-*/%]+$/;
+    if (!pattern.test(input.value)){
+    alert("Only numbers and valid operators, please!");
+    input.value = input.value.replace(/[^0-9.+\-*/%]/g, ''); 
+    }
+    }
+    
